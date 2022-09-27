@@ -1,0 +1,28 @@
+/*Write a program in C# to accept two words from user and find out if they are same.*/
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace String03
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            Console.WriteLine("Enter two words=");
+            string w1 = Console.ReadLine();
+            string w2 = Console.ReadLine();
+            if(w1==w2)
+            {
+                Console.WriteLine("The entered words are equal ");
+            }
+            else
+            {
+                Console.WriteLine("The entered words are not equal");
+            }
+        }
+    }
+}

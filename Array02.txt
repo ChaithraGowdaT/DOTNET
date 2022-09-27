@@ -1,0 +1,81 @@
+/*Write a program in C# to accept ten marks and display the 
+		following
+a.	Total
+b.	Average
+c.	Minimum marks
+d.	Maximum marks
+e.	Display marks in ascending order
+f.	Display marks in descending order*/
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Array02
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            int i;
+            int[] marks = { 21, 23, 34, 45, 59, 67, 78, 19, 43, 20 };
+            int total = 0;
+            float avgr = 0.0F;
+            foreach (int item in marks)
+            {
+                total += item;
+
+            }
+            avgr = (float)total / 10;
+
+            for (i = 0; i <10; i++)
+            {
+                for (int j = 1; j <10-1 ; j++)
+                {
+                    if (marks[j] > marks[j+1 ])
+                    {
+                        int temp = marks[j];
+                        marks[j] = marks[j+1];
+                        marks[j+1 ] = temp;
+                    }
+                }
+            }
+            
+
+            Console.WriteLine("The total of the marks is {0} ", total);
+            Console.WriteLine(" The average of the total is :{0} ", avgr);
+            Console.WriteLine("Minimum value of an array : {0}", marks.Min());
+            Console.WriteLine("Maximum value of an array :{0} ", marks.Max());
+            //Display the Ascending values one by one  
+            Console.Write("Ascending Sort : ");
+            for (i = 1; i < 10; i++)
+            {
+                Console.Write(marks[i] + " ");
+
+            }
+
+            for (i = 0; i < 10; i++)
+            {
+                for (int k = i + 1; k < 10; k++)
+                {
+                    if (marks[i] < marks[k])
+                    {
+                        int tmp = marks[i];
+                        marks[i] = marks[k];
+                        marks[k] = tmp;
+                    }
+                }
+            }
+
+            Console.Write("\nElements of the array in sorted descending order:\n");
+            for (i = 0; i < 10; i++)
+            {
+                Console.Write("{0}  ", marks[i]);
+            }
+
+
+        }
+    }
+}

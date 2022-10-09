@@ -12,6 +12,12 @@ using System.Threading.Tasks;
 
 namespace TrainTicketBooking
 {
+    class MyException : Exception
+    {
+        public MyException(string Message) : base(Message) { }
+        public MyException() { }
+        public MyException(string Message, Exception inner) : base(Message, inner) { }
+    }
     class Passenger
     {
         public string Name;
@@ -21,7 +27,7 @@ namespace TrainTicketBooking
         {
             if (no_of_tickets > 2)
             {
-                throw (new IndexOutOfRangeException("cannot book more than 2 Tickets"));
+                throw new MyException("cannot book more than 2 Tickets");
             }
             else
             {
@@ -31,7 +37,7 @@ namespace TrainTicketBooking
     }
     class Test
     {
-       
+
         public static void Main(string[] args)
         {
             Passenger passenger = new Passenger();
@@ -40,19 +46,21 @@ namespace TrainTicketBooking
             Console.WriteLine("Enter the age of the passenger ");
             int Age = Convert.ToInt32(Console.ReadLine());
             Console.WriteLine("Enter no of tickets to be booked ");
-            passenger.notickets= Convert.ToInt32(Console.ReadLine());
+            passenger.notickets = Convert.ToInt32(Console.ReadLine());
 
             try
             {
                 passenger.TicketBooking(passenger.notickets);
+                
             }
-            catch(IndexOutOfRangeException ie)
+            catch (MyException e)
             {
-                Console.WriteLine(ie.Message);
+                
+                Console.WriteLine(e.Message);
             }
 
-           
-            Console.ReadLine();
+
+                Console.ReadLine();
 
         }
     }

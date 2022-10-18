@@ -13,77 +13,53 @@ namespace Program1_06_
 {
     class Books
     {
-        string[] BookName = new string[5];
-        string[] AuthorName = new string[5];
+        string BookName;
+        string AuthorName;
 
-        public string this[int N]
-        { 
-                get { string temp = BookName[N]; return temp; }
-                set { BookName[N] = value; }
-            
-        }
-        public string this[long S]
+        public Books(string BookName, string AuthorName)
         {
-            get
-            {
-                string temp = AuthorName[S];
-                return temp;
-            }
-            set { AuthorName[S] = value; }
+            this.BookName = BookName;
+            this.AuthorName = AuthorName;
         }
 
         public void Display()
-        {   for (int i = 0; i < 5; i++)
-            {
-                    Console.WriteLine("Book name: {0} & Author name:{1}", BookName[i], AuthorName[i]);
-                    Console.WriteLine();
-            }
+        {
+            
+                Console.WriteLine(BookName+ " book is written by " +AuthorName);
+                Console.WriteLine();
+            
         }
 
     }
-    
-
-     class BookShelf
-
-    { 
-        Books book;
-        public static void SetBooks(Books book)
-        {
-
-            //filling data to book names
-            book[0] = "The Braille edition of the book Exam Warriors";
-            book[1] = "Believe-What Life and Cricket Taught Me";
-            book[2] = "The Christmas Pig";
-            book[3] = "Whereabouts";
-            book[4] = "Lal Salam";
-            //filling data to author names
-            book[0L] = "PM Narendra Modi";
-            book[1L] = "Suresh Raina";
-            book[2L] = "JK Rowling";
-            book[3L] = "Jhumpa Lahiri";
-            book[4L] = "Smriti Irani";
-            book.Display();
-        }
 
 
-        public BookShelf()
-        {
-            book = new Books();
-            SetBooks(book);
-        }
+    class BookShelf
 
-
-        }
-    class DriverClass
     {
+        Books[] Bookname = new Books[5];
+      
+        public Books this[int n]
+        {
+            get { return Bookname[n]; }
+            set { Bookname[n] = value; }
+        }
+
         static void Main(string[] args)
         {
-            BookShelf bookS = new BookShelf();
+
+            BookShelf book = new BookShelf();
+            book[0] = new Books("The Braille edition of the book Exam Warriors", " PM Narendra Modi");
+            book[1] = new Books("Believe-What Life and Cricket Taught Me", "Suresh Raina");
+            book[2] = new Books("The Christmas Pig","JK Rowling");
+            book[3] = new Books("Whereabouts","Jhumpa Lahiri");
+            book[4] = new Books("Lal Salam","Smriti Irani");
+            for (int j = 0; j < 5; j++)
+            {
+                book[j].Display();
+            }
+            
+
             Console.Read();
         }
     }
-
-
-
-    
 }

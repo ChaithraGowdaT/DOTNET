@@ -1,0 +1,104 @@
+****************Assignment2******************
+
+***********************Sql Query1( employee )*****************
+use Assignment02DB
+create table Employee01
+(
+    EmpNo int primary key,
+    EName varchar(24) not null,
+    job varchar(30) not null,
+    manager_id int ,
+    HireDate date,
+    salary money,
+    commision money,
+    DeptNo int foreign key (DeptNo) references Department01(deptno)
+)
+
+insert into Employee01 values
+(7369,'SMITH', 'CLERK',7902,'1980-12-17',800,null, 20),
+(7499,'ALLEN' ,'SALESMAN' ,7698 ,'1981-02-20',1600 , 300,30),
+(7521,'WARD','SALESMAN', 7698,'1981-02-22', 1250,500,30),
+(7566,'JONES' ,'MANAGER' ,7839,'1981-04-02', 2975,null,20),
+(7654,'MARTIN','SALESMAN',7698,'1981-09-28',1250,1400,30),
+(7698,'BLAKE','MANAGER',7839,'1981-05-01',2850,null,30),
+(7782,'CLARK','MANAGER',7839,'1981-06-09',2450,null, 10),
+(7788 ,'SCOTT','ANALYST ',7566,'1987-04-19',3000, null, 20),
+(7839,'KING','PRESIDENT', null,'1981-11-17',5000, null, 10),
+(7844,'TURNER','SALESMAN',7698,'1981-09-08',1500, 0 ,30),
+(7876,'ADAMS','CLERK',7788,'1987-05-23',1100, null,  20),
+(7900,'JAMES','CLERK',7698,'1981-12-03',950, null,  30),
+(7902,'FORD','ANALYST',7566,'1981-12-03',3000 , null,  20),
+(7934 ,'MILLER','CLERK',7782,'1982-01-23',1300, null,  10)
+
+select*from Employee01
+
+***************************sql query 2(department)**************
+use Assignment02DB
+create table Department01
+(
+deptno int primary key ,
+dname varchar(30),
+Loc varchar(30)
+)
+insert into Department01 values(10,'ACCOUNTING','NEW YORK'),
+(20,'RESEARCH','DALLAS'),
+(30,'SALES','CHICAGO'),
+(40,'OPERATION','BOSTON')
+
+
+select*from Department01
+********************************sql query(questions)***************
+select*from Employee01,Department01
+use Assignment02DB
+--1. List all employees whose name begins with 'A'. 
+select*from Employee01 where Ename like 'A%'
+
+--2. Select all those employees who don't have a manager.
+select* from Employee01 where manager_id is null;
+
+--3. List employee name, number and salary for those employees who earn in the range 1200 to 1400.
+select EmpNo,EName,salary from Employee01 where salary Between 1200 And 1400
+
+--4. Give all the employees in the RESEARCH department a 10% pay rise.
+----Verify that this has been done by listing all their details before and after the rise.
+select EmpNo,EName,salary,(salary+salary*0.1)as 'pay rise'from Employee01 where DeptNo=20
+
+
+--5. Find the number of CLERKS employed. Give it a descriptive heading. 
+select job, count(*) as numbers from Employee01 where job = 'CLERK'
+group by job
+
+--6. Find the average salary for each job type and the number of people employed in each job
+select job ,avg(salary)as 'average salary' ,count(*)as 'numbers'  from Employee01
+group by job
+
+--7. List the employees with the lowest and highest salary. 
+---select  max(salary+commision) MaximumSalary,min(salary+commision) as MinimumSalary from  Employee01 
+Select  * from Employee01 where salary in (select min(salary) as 'Min /Max Salary'   from Employee01 UNION select max(salary) from Employee01);
+
+
+--8. List full details of departments that don't have any employees. 
+select B.deptno,B.dname,B.loc from Employee01 as A  Right JOIN Department01 as B ON A.deptno = B.deptno where empno is null
+
+
+--9. Get the names and salaries of all the analysts earning more than 1200 who are based in department 20.
+-----Sort the answer by ascending order of name.
+select EName,salary,job from Employee01  where job='ANALYST' and salary>1200 and  DeptNo=20 order by EName
+
+--10. For each department, list its name and number together with the total salary paid to employees in that department.****** 
+select d.dname,d.deptno, sum(salary) as 'total salary' from Employee01 e join Department01 d on e.DeptNo=d.deptno group by d.deptno,d.dname
+
+--11. Find out salary of both MILLER and SMITH   
+ select salary,EName from Employee01 where EName in ( 'MILLER' , 'SMITH')
+
+ --12. Find out the names of the employees whose name begin with ‘A’ or ‘M’.
+ select * from Employee01 where EName LIKE'[AM]%'
+
+ --13. Compute yearly salary of SMITH. 
+ select EName,salary*12 as 'yearly salary' from Employee01 where EName like 'SMITH'
+
+ --14. List the name and salary for all employees whose salary is not in the range of 1500 and 2850. 
+ select EmpNo,EName,salary from Employee01 where salary Not Between 1500 And 2850
+
+
+

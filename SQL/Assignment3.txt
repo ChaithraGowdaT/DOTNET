@@ -1,0 +1,121 @@
+******************assignment03***************
+
+*********************sql query 01(employee)***************
+create database Assignment03DB
+use Assignment03DB
+create table Employee03
+(
+    EmpNo int primary key,
+    EName varchar(24) not null,
+    job varchar(30) not null,
+    manager_id int ,
+    HireDate date,
+    salary money,
+    commision money,
+    DeptNo int foreign key (DeptNo) references Department03(deptno)
+)
+
+insert into Employee03 values
+(7369,'SMITH', 'CLERK',7902,'1980-12-17',800,null, 20),
+(7499,'ALLEN' ,'SALESMAN' ,7698 ,'1981-02-20',1600 , 300,30),
+(7521,'WARD','SALESMAN', 7698,'1981-02-22', 1250,500,30),
+(7566,'JONES' ,'MANAGER' ,7839,'1981-04-02', 2975,null,20),
+(7654,'MARTIN','SALESMAN',7698,'1981-09-28',1250,1400,30),
+(7698,'BLAKE','MANAGER',7839,'1981-05-01',2850,null,30),
+(7782,'CLARK','MANAGER',7839,'1981-06-09',2450,null, 10),
+(7788 ,'SCOTT','ANALYST ',7566,'1987-04-19',3000, null, 20),
+(7839,'KING','PRESIDENT', null,'1981-11-17',5000, null, 10),
+(7844,'TURNER','SALESMAN',7698,'1981-09-08',1500, 0 ,30),
+(7876,'ADAMS','CLERK',7788,'1987-05-23',1100, null,  20),
+(7900,'JAMES','CLERK',7698,'1981-12-03',950, null,  30),
+(7902,'FORD','ANALYST',7566,'1981-12-03',3000 , null,  20),
+(7934 ,'MILLER','CLERK',7782,'1982-01-23',1300, null,  10)
+
+select*from Employee03
+
+
+**********************sql query2(department)**********************
+
+use Assignment03DB
+create table Department03
+(
+deptno int primary key ,
+dname varchar(30),
+Loc varchar(30)
+)
+insert into Department03 values(10,'ACCOUNTING','NEW YORK'),
+(20,'RESEARCH','DALLAS'),
+(30,'SALES','CHICAGO')
+
+
+select*from Department03
+
+*********************sql query3(questions)***********************
+
+use Assignment03DB
+--1. Retrieve a list of MANAGERS. 
+select *from Employee03 where job like 'MANAGER'
+
+--2. Find out the names and salaries of all employees earning more than 1000 per MONTH
+select EName,Salary from Employee03 where (salary>1000)
+
+--3. Display the names and salaries of all employees except JAMES. 
+select EName,Salary from Employee03 where EName != 'JAMES'
+
+--4. Find out the details of employees whose names begin with ‘S’. 
+select *from Employee03 where EName like 'S%'
+
+--5. Find out the names of all employees that have ‘A’ anywhere in their name. 
+select *from Employee03 where EName like '%A%'
+
+--6. Find out the names of all employees that have ‘L’ as their third character in their name.
+select *from Employee03 where EName like '__L%'
+
+--7. Compute daily salary of JONES. 
+select EName,salary/30 as 'daily salary' from Employee03 where EName like 'JONES'
+
+--8. Calculate the total monthly salary of all employees.
+select sum(salary) as 'Monthly Salary of all Employess' from Employee03
+
+--9. Print the average annual salary .
+select sum(salary*12)/count(salary) as 'annual average salary' from Employee03 
+  --sum of total salary *12 then divide it by 14 gives annual average salary
+ --10. Select the name, job, salary, department number of all employees except SALESMAN from department number 30.
+ select Ename,job,salary,deptno from Employee03 where DeptNo!=30
+ 
+ --11. List unique departments of the EMP table. ***************************
+
+ --12. List the name and salary of employees who earn more than 1500 and are in department 10 or 30.
+ --Label the columns Employee and Monthly Salary respectively.
+ select Ename,Salary from Employee03 where salary>1500 and DeptNo = 10 or DeptNo = 30
+
+ --13. Display the name, job, and salary of all the employees whose job is MANAGER or 
+--   ANALYST and their salary is not equal to 1000, 3000, or 5000. 
+select Ename,job,salary from Employee03 where job ='MANAGER' or job =' ANALYST' and (salary!=1000 and salary!=3000 and salary!=5000)
+
+--14. Display the name, salary and commission for all employees whose commission 
+------amount is greater than their salary increased by 10%. 
+select Ename,(salary+salary*0.1) as '10% incresed in salary',commision from Employee03 where commision>(salary+salary*0.1)
+
+--15. Display the name of all employees who have two Ls in their name and are in 
+-----department 30 or their manager is 7782.
+select *from Employee03 where EName like '%ll%' and DeptNo=30 or manager_id=7782
+
+--16. Display the names of employees with experience of over 10 years and under 20 yrs.
+----- Count the total number of employees. 
+
+Select EmpNo,ename, datediff(year,hiredate,getdate()) as experience ,count(*) as countofexp  from Employee03
+where 
+datediff(year,hiredate,getdate())>10 and datediff (year,hiredate,getdate())<20  group by ename,hiredate,empno
+
+
+---17. Retrieve the names of departments in ascending order and their employees in descending order.
+select d.dname,a.EName from Employee03 as a join DEpartment03 as d on d.deptno=a.DeptNo order by d.dname Asc, a.EName desc
+
+
+--18. Find out experience of MILLER. 
+select EmpNo, EName,Hiredate,job,salary,deptno,commision,manager_id,
+  convert(varchar(3),DATEDIFF(MONTH, HireDate, GETDATE())/12) +' years '+
+    convert(varchar(2),DATEDIFF(MONTH, HireDate, GETDATE()) % 12)+ ' months' 
+    AS EXPERIENCE 
+	from Employee03 where EName like 'MILLER'

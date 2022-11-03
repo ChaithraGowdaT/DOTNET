@@ -1,0 +1,68 @@
+*********************************Asignment04**************************************
+
+**********************sqlquery1(holiday)**************************************
+
+1.  --Create a trigger to restrict data manipulation on EMP table during General holidays. 
+--Display the error message like “Due to Independence day you cannot manipulate data” or "Due To Diwali", 
+--you cannot manupulate" etc
+
+--Note: Create holiday table as (holiday_date,Holiday_name) store at least 4 holiday details
+
+create table holiday_table
+(
+Holiday_date date,
+Holiday_name varchar(20))
+
+insert into holiday_table values ('2022-01-26','Republic day'),('2022-08-15','Independence day'),('2022-10-24','Deepawali'),
+('2022-11-01','Kannada Rajyostava')
+
+select*from holiday_table
+--------------------------------------------------------------------------------
+create or alter trigger holiday_throw
+on Employee04
+ for insert,update,delete 
+ as
+ print 'Due to Diwali cannot manupulate the data'
+ rollback;
+ -----------------------------------------------------------------------------------
+ insert into Employee04 values(8080,'alien', 'CLERK',7902,'1988-11-10',900,null, 10)
+
+***************************************sql query2(multiplication)******************************
+use Assignment04DB
+
+create or alter procedure sp_muloftable(@value int)
+as 
+begin
+DECLARE @i INT 
+SET @i = 0;
+DECLARE @j INT 
+set @j=@value 
+PRINT 'Multipliction table for ' 
+    + CONVERT(VARCHAR, @j) + ':' + CHAR(13); 
+WHILE (@i < 10) 
+BEGIN
+ SET @i = @i + 1; 
+ PRINT CONVERT(VARCHAR, @j)+' * ' +CONVERT(VARCHAR, @i)+' = ' + CONVERT(VARCHAR, @i*@j);
+END
+end
+
+
+exec sp_muloftable 10
+
+***********************************sql query 3(fraction)*************************
+use Assignment04DB
+
+CREATE FUNCTION dbo.Fraction ( @ip int )
+RETURNS INT
+AS
+BEGIN
+DECLARE @i  int
+
+    IF @ip <= 1
+        SET @i = 1
+    ELSE
+        SET @i = @ip * dbo.Fraction( @ip - 1 )
+RETURN (@i)
+END
+
+select dbo.Fraction(5)

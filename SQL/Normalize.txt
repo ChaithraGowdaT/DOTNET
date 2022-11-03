@@ -1,0 +1,52 @@
+*********************************normalize problem***********************
+
+**************************sql query1******************
+create database Normalization
+
+use Normalization
+
+create  table oneNF
+(
+  cno varchar(10) FOREIGN  key REFERENCES Client_data(CNO),
+  rentstart date,
+  rentfinish date,
+  PNO VARCHAR(10) FOREIGN  key REFERENCES Property_data(PNO)
+  )
+drop table oneNF
+select*from oneNF
+
+insert into oneNF values('CR76','2000-07-01','2001-08-31','PG4'),
+('CR76','2002-09-01','2002-09-01','PG16'),
+('CR56','1999-09-01','2000-06-10','PG4'),
+('CR56','2000-10-10','2001-12-01','PG36'),
+('CR56','2002-11-01','2003-08-01','PG16')
+
+**************************sql query2*********************
+use Normalization
+create table Property_data
+(
+pno varchar(10) primary key,
+rent int ,
+oname varchar(50),
+paddress varchar(100),
+ono varchar(10),
+
+)
+drop table Property_data
+select*from Property_data
+
+INSERT INTO Property_data VALUES('PG4',350,'TINA MURTHY','6 LAWRENCE ST,GLASGOW','C040'),
+('PG16',450,'TONY SHAW','5 NOWAR DR,GLASGOW','CO93'),
+
+('PG36',370,'TONY SHAW','2 MANOR RD,GLASGOW','C093')
+
+**************************sql query 3************************
+create table Client_data
+(
+cno varchar(10) primary key,
+cname varchar(50)
+
+)
+
+select*from Client_data
+insert into Client_data values('CR76','John kay'),('CR56','ALINE STEWAR')
